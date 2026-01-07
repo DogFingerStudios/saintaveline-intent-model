@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 
 from model import BowIntentNet
+from waypoint_matcher import WaypointMatcher
 
 
 INTENTS = ["go_to", "follow", "hold_position"]
@@ -29,6 +30,21 @@ def main():
     model.load_state_dict(ckpt["model_state_dict"])
     model.eval()
 
+    # AI: Example waypoint list - replace with your runtime list
+    known_waypoints = [
+        "5th floor bathroom",
+        "roof vent",
+        "stairs",
+        "the",
+        "KitchenDoor",
+        "Central Park",
+        "Main Pier",
+        "Escape Boat"
+    ]
+
+    matcher = WaypointMatcher()
+    matcher.set_waypoints(known_waypoints)
+
     print("Type a command (or 'exit'):\n")
 
     while True:
@@ -46,10 +62,12 @@ def main():
         speed_conf, speed_idx, speed_probs = softmax_confidence(out["speed"])
         urg_conf, urg_idx, urg_probs = softmax_confidence(out["urgency"])
 
+        intent_label = INTENTS[intent_idx]
+
         result = {
             "text": text,
             "intent": {
-                "label": INTENTS[intent_idx],
+                "label": intent_label,
                 "confidence": round(intent_conf, 4),
                 "probs": {INTENTS[i]: round(float(intent_probs[i]), 4) for i in range(len(INTENTS))}
             },
@@ -64,6 +82,32 @@ def main():
                 "probs": {URGENCY[i]: round(float(urg_probs[i]), 4) for i in range(len(URGENCY))}
             }
         }
+
+        # AI: Only attempt waypoint matching when the intent implies a target location.
+        if intent_label in ["go_to"]:
+            wp = matcher.match(
+                user_text=text,
+                top_k=5,
+                min_score=0.35,
+                min_margin=0.05
+            )
+
+            target_block = {
+                "selected": wp.waypoint if not wp.needs_clarification else None,
+                "score": round(wp.score, 4),
+                "topK": [{"name": n, "score": round(s, 4)} for (n, s) in wp.top_k],
+                "clarify": None
+            }
+
+            if wp.needs_clarification:
+                target_block["clarify"] = {
+                    "question": "Which waypoint did you mean?",
+                    "choices": wp.clarification_choices
+                }
+
+            result["target"] = target_block
+        else:
+            result["target"] = None
 
         print(json.dumps(result, indent=2))
         print("")
