@@ -1,5 +1,9 @@
 # Saint Aveline Intent Model
 
+This repository contains the code for training and evaluating an intent classification model for the Saint Aveline project. This model is designed to take user commands and classify them into predefined intents to facilitate appropriate responses.
+
+The model is trained in Python, but is consumed by C# and Unity.
+
 ## Requirements
 
 - Python 3.11.x is being used for development
