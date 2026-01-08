@@ -205,6 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
-csharp_test/.vs/
-csharp_test/bin/
-csharp_test/obj/
+csharplib/.vs/
+csharplib/bin/
+csharplib/obj/
+
+# Model output files
+intent_model.pt
+intent_model.onnx
+vocab.json

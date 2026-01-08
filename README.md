@@ -29,3 +29,10 @@ $> python train.py
 ```bash
 $> python test.py
 ```
+
+## Build for C#
+```bash
+$> python python train.py   # outputs intent_model.pt
+$> python export_model.py   # converts intent_model.pt to intent_model.onnx
+$> python export_vcab_json.py   # exports the vocabulary to a JSON file
+```
