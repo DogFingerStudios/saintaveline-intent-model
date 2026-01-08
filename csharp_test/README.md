@@ -1,0 +1,1 @@
+dotnet add package Microsoft.ML.OnnxRuntime --version 1.23.2

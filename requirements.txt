@@ -2,3 +2,4 @@ torch
 scikit-learn
 numpy<2
 sentence-transformers
+onnxscript

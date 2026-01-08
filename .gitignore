@@ -205,3 +205,6 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+csharp_test/.vs/
+csharp_test/bin/
+csharp_test/obj/
