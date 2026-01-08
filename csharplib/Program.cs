@@ -9,7 +9,13 @@ class Program
             @"S:\dfs\saintaveline-intent-model\vocab.json"
         );
 
-        IntentResult r = inf.Run("hurry up and go to the roof vent now");
+        IntentResult r = inf.Run("Give Matthew a blowie in the bathroom!");
+
+        var intentSoftmax = new SoftMaxResult(r.IntentLogits.Select(x => (double)x).ToArray());
+        //Console.WriteLine($"Result: {intentSoftmax.ToString()}");  
+        string str = intentSoftmax.ToString();
+        //string str = "HELLO MATTHEW AND KERBY";
+        Console.WriteLine("str: " + str);
 
         Console.WriteLine("Hello, World!");
     }
