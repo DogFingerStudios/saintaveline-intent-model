@@ -32,7 +32,7 @@ def main():
             "speed": {0: "batch"},
             "urgency": {0: "batch"}
         },
-        opset_version=18
+        opset_version=15
     )
 
     print("Exported intent_model.onnx")
