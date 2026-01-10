@@ -6,4 +6,5 @@ https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime
 
 ```bash
 dotnet add package Microsoft.ML.OnnxRuntime --version 1.23.2
+dotnet add package Microsoft.ML.Tokenizers
 ```
