@@ -60,6 +60,15 @@ public sealed class MiniLmEmbedder : IDisposable
         return output;
     }
 
+    public void TestFunction()
+    {
+        var ids = _tokenizer.EncodeToIds("the cat is sleeping");
+        Console.WriteLine(string.Join(", ", ids));
+
+        ids = _tokenizer.EncodeToIds("the dog is sleeping");
+        Console.WriteLine(string.Join(", ", ids));
+    }
+
     public void Dispose()
     {
         _session.Dispose();
