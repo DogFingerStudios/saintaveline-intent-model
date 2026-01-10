@@ -1,3 +1,4 @@
+import argparse
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -7,14 +8,21 @@ from sklearn.feature_extraction.text import CountVectorizer
 from data import build_dataset
 from model import BowIntentNet
 
-
 EPOCHS = 10
 BATCH_SIZE = 32
 HIDDEN_DIM = 128
 LR = 0.01
-
+OUTPUT_FILE = "intent_model.pt"
 
 def main():
+    parser = argparse.ArgumentParser(description="Train the intent model.")
+    parser.add_argument("--epochs", type=int, default=EPOCHS, help="Number of training epochs")
+    parser.add_argument("--batch_size", type=int, default=BATCH_SIZE, help="Batch size for training")
+    parser.add_argument("--hidden_dim", type=int, default=HIDDEN_DIM, help="Hidden dimension size")
+    parser.add_argument("--lr", type=float, default=LR, help="Learning rate")
+    parser.add_argument("--out", type=str, default=OUTPUT_FILE, help="Output file for the trained model")
+    args = parser.parse_args()
+
     texts, labels = build_dataset(4000)
 
     vectorizer = CountVectorizer()
@@ -33,7 +41,7 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=LR)
     loss_fn = nn.CrossEntropyLoss()
 
-    for epoch in range(EPOCHS):
+    for epoch in range(args.epochs):
         perm = torch.randperm(X.shape[0])
         total_loss = 0.0
 
@@ -66,7 +74,7 @@ def main():
             "vocab": vectorizer.vocabulary_,
             "hidden_dim": HIDDEN_DIM
         },
-        "intent_model.pt"
+        args.out
     )
     print("Saved intent_model.pt")
 
