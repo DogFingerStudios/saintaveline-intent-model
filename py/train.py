@@ -37,16 +37,16 @@ def main():
     y_speed = torch.from_numpy(y_speed)
     y_urgency = torch.from_numpy(y_urgency)
 
-    model = BowIntentNet(vocab_size=X.shape[1], hidden_dim=HIDDEN_DIM)
-    optimizer = optim.Adam(model.parameters(), lr=LR)
+    model = BowIntentNet(vocab_size=X.shape[1], hidden_dim=args.hidden_dim)
+    optimizer = optim.Adam(model.parameters(), lr=args.lr)
     loss_fn = nn.CrossEntropyLoss()
 
     for epoch in range(args.epochs):
         perm = torch.randperm(X.shape[0])
         total_loss = 0.0
 
-        for start in range(0, X.shape[0], BATCH_SIZE):
-            idx = perm[start:start + BATCH_SIZE]
+        for start in range(0, X.shape[0], args.batch_size):
+            idx = perm[start:start + args.batch_size]
             xb = X[idx]
             yi = y_intent[idx]
             ys = y_speed[idx]
@@ -66,13 +66,13 @@ def main():
 
             total_loss += loss.item()
 
-        print(f"Epoch {epoch + 1}/{EPOCHS} loss={total_loss:.3f}")
+        print(f"Epoch {epoch + 1}/{args.epochs} loss={total_loss:.3f}")
 
     torch.save(
         {
             "model_state_dict": model.state_dict(),
             "vocab": vectorizer.vocabulary_,
-            "hidden_dim": HIDDEN_DIM
+            "hidden_dim": args.hidden_dim
         },
         args.out
     )
