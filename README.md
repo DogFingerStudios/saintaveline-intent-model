@@ -15,6 +15,11 @@ $> python -m venv venv
 $> source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
 
+This may be needed on some systems:
+```bash
+pip install --index-url https://download.pytorch.org/whl/cpu torch
+```
+
 #### 2. Install the required packages:
 ```bash
 $> pip install -r requirements.txt

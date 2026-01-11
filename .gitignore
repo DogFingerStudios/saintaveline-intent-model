@@ -213,3 +213,4 @@ csharplib/obj/
 intent_model.pt
 intent_model.onnx
 vocab.json
+intent_model.onnx.data
