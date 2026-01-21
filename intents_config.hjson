@@ -1,0 +1,21 @@
+actions:
+{
+    go_to: 
+    {
+        args: [ waypoint ]
+    }
+
+    hold_position:
+    {
+    }
+
+    follow:
+    {
+        args: [ character ]
+    }
+
+    drop:
+    {
+        args: [ item ]
+    }
+}
